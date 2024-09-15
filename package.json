@@ -1,11 +1,25 @@
 {
   "name": "rate-limiter-utils",
   "version": "1.0.0",
-  "description": "Efficiently managing API requests in frontend libraries.",
+  "description": "Efficiently manages API requests in frontend libraries",
   "main": "build/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc",
+    "start": "node build/index.js",
+    "dev": "nodemon build/index.js"
   },
+  "author": {
+    "name": "anurag kumar",
+    "email": "anuragkmr45@gmail.com",
+    "url": "https://linktr.ee/anuragkmr45"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^22.5.5",
+    "typescript": "^5.6.2"
+  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anuragkmr45/rate-limiter-utils.git"
@@ -18,14 +32,8 @@
     "ratelimit",
     "ratelimiter"
   ],
-  "author": "Anurag Kumar",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/anuragkmr45/rate-limiter-utils/issues"
   },
-  "homepage": "https://github.com/anuragkmr45/rate-limiter-utils#readme",
-  "dependencies": {
-    "@types/node": "^22.5.5",
-    "typescript": "^5.6.2"
-  }
+  "homepage": "https://github.com/anuragkmr45/rate-limiter-utils#readme"
 }
