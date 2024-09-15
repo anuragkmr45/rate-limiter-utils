@@ -1,7 +1,7 @@
 export function debounce(func: Function, delay: number) {
-    let debounceTimer: ReturnType<typeof setTimeout> | null;
+    let debounceTimer: ReturnType<typeof setTimeout>;
 
-    return function (...args: any[]) {
+    return function (this: unknown, ...args: any[]) {
         const context = this;
 
         clearTimeout(debounceTimer);
