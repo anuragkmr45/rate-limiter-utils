@@ -1,5 +1,5 @@
-declare function debounce(func: Function, delay: number): (this: unknown, ...args: any[]) => any;
+declare function debounce(func: Function, delay: number, immediate?: boolean): (this: unknown, ...args: any[]) => void;
 
-declare const throttle: (func: Function, delay: number) => (...args: any[]) => any;
+declare const throttle: (func: Function, delay: number, immediate?: boolean) => (this: unknown, ...args: any[]) => void;
 
 export { debounce, throttle };

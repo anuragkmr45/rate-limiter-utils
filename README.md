@@ -1,6 +1,6 @@
-# api-call-control
+# rate-limiter-utils
 
-<b>api-call-control </b> is an npm package designed to optimize how frontend applications interact with APIs. It helps manage API request rates by implementing debouncing and throttling techniques, which improve performance and prevent issues like exceeding API rate limits.
+<b>rate-limiter-utils </b> is an npm package designed to optimize how frontend applications interact with APIs. It helps manage API request rates by implementing debouncing and throttling techniques, which improve performance and prevent issues like exceeding API rate limits.
 
 ## ✨ Features
 
@@ -8,7 +8,7 @@
 
 - **Throttling**: Limits how often a function can be called within a set timeframe. Useful for handling high-frequency actions like scrolling or mouse movements.
 
-### By using api-call-control, you can:
+### By using rate-limiter-utils, you can:
 
 - 🚀 Boost application performance by reducing unnecessary API requests.
 
@@ -18,10 +18,10 @@
 
 ## 🛠️ Installation
 
-You can install `api-call-control` via npm:
+You can install `rate-limiter-utils` via npm:
 
 ```bash
-npm install api-call-control
+npm install rate-limiter-utils
 ```
 
 ## 📚 Usage
@@ -30,41 +30,66 @@ Here's how you can use the debounce and throttle functions in your frontend appl
 
 ### Debouncing Example
 
+ - <b>Standard debounce (function executes after delay):</b>
+ <br>
+
 ```javascript
-import { debounce } from 'api-call-control';
+import { debounce } from 'rate-limiter-utils';
 
-const fetchData = () => {
-  // Function that makes an API call
-  console.log('API called');
-};
+const debouncedFunction = debounce(() => console.log('Executed!'), 300);
 
-// Create a debounced version of fetchData with a 500ms delay
-const debouncedFetch = debounce(fetchData, 500);
+debouncedFunction();  // Will log "Executed!" after 300ms
 
-// Call debounced function (e.g., after user input)
-debouncedFetch();
+```
+
+ - <b>Immediate execution (executes immediately and then debounced):</b>
+ <br>
+<small>If immediate is true, the function is executed at the start and then debounced. If false, it behaves like a standard debounce function.</small>
+
+
+```javascript
+import { debounce } from 'rate-limiter-utils';
+
+const debouncedFunction = debounce(() => console.log('Executed!'), 300, true);
+
+debouncedFunction();  // Will log "Executed!" after 300ms
+
 ```
 
 ### Throttling Example
 
+ - <b>Standard throttle (function is invoked every delay ms at most):</b>
+ <br>
+
 ```javascript
-import { throttle } from 'api-call-control';
+import { debounce } from 'rate-limiter-utils';
 
-const handleScroll = () => {
-  // Function that handles scroll event and makes API calls
-  console.log('API called on scroll');
-};
+const throttledFunction = throttle(() => console.log('Throttled function!'), 300);
 
-// Create a throttled version of handleScroll with a 1000ms delay
-const throttledScroll = throttle(handleScroll, 1000);
+throttledFunction();  // Will log "Throttled function!" if enough time has passed since the last call
 
-// Attach the throttled function to a scroll event listener
-window.addEventListener('scroll', throttledScroll);
+
 ```
 
-## 📋 API
+ - <b>Immediate execution (function is executed immediately, and then throttled):</b>
+ <br>
+<small>If immediate is true, the function is executed at the start and then throttled. If false, it behaves like a standard throttling function.</small>
 
-### `debounce(function: Function, debounceDelay: number): Function`
+
+```javascript
+import { debounce } from 'rate-limiter-utils';
+
+const throttledImmediateFunction = throttle(() => console.log('Throttled function!'), 300, true);
+
+throttledImmediateFunction();  // Will log immediately on the first call, and throttle subsequent calls
+
+
+```
+
+<!-- ## 📋 API
+
+### debounce
+ <h3>standard debounce ```debounce(function: Function, debounceDelay: number): Function```
 
 - `function`: The function to debounce.
 - `debounceDelay`: The number of milliseconds to delay execution.
@@ -76,7 +101,7 @@ This method returns a new function that postpones the execution of the original 
 - `function`: The function to throttle.
 - `throttleDelay`: The number of milliseconds to wait before calling the function again.
 
-This method returns a throttled function that executes no more frequently than the specified delay.
+This method returns a throttled function that executes no more frequently than the specified delay. -->
 
 <!-- ## 🚧 Scripts
 

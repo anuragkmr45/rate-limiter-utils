@@ -1,12 +1,24 @@
-export function debounce(func: Function, delay: number) {
-    let debounceTimer: ReturnType<typeof setTimeout>;
+export function debounce(func: Function, delay: number, immediate: boolean = false) {
+    let debounceTimer: ReturnType<typeof setTimeout> | null;
 
     return function (this: unknown, ...args: any[]) {
         const context = this;
 
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+        }
 
-        return func.apply(context, args);
+        const callNow = immediate && !debounceTimer;
+
+        debounceTimer = setTimeout(() => {
+            debounceTimer = null;
+            if (!immediate) {
+                func.apply(context, args);
+            }
+        }, delay);
+
+        if (callNow) {
+            func.apply(context, args);
+        }
     };
 }

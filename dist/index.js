@@ -1,22 +1,48 @@
 // src/debounce.ts
-function debounce(func, delay) {
+function debounce(func, delay, immediate = false) {
   let debounceTimer;
   return function(...args) {
     const context = this;
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => func.apply(context, args), delay);
-    return func.apply(context, args);
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+    const callNow = immediate && !debounceTimer;
+    debounceTimer = setTimeout(() => {
+      debounceTimer = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    }, delay);
+    if (callNow) {
+      func.apply(context, args);
+    }
   };
 }
 
 // src/throttle.ts
-var throttle = (func, delay) => {
-  let prev = 0;
-  return (...args) => {
-    let now = (/* @__PURE__ */ new Date()).getTime();
-    if (now - prev > delay) {
-      prev = now;
-      return func(...args);
+var throttle = (func, delay, immediate = false) => {
+  let lastExecuted = null;
+  let timeout = null;
+  return function(...args) {
+    const context = this;
+    const now = performance.now();
+    if (lastExecuted === null && immediate) {
+      lastExecuted = now;
+      func.apply(context, args);
+      return;
+    }
+    const remainingTime = delay - (now - (lastExecuted || 0));
+    if (remainingTime <= 0 || lastExecuted === null) {
+      clearTimeout(timeout);
+      timeout = null;
+      lastExecuted = now;
+      func.apply(context, args);
+    } else if (!timeout) {
+      timeout = setTimeout(() => {
+        lastExecuted = performance.now();
+        timeout = null;
+        func.apply(context, args);
+      }, remainingTime);
     }
   };
 };

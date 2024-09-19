@@ -1,20 +1,30 @@
-export const throttle = (func: Function, delay: number) => {
+export const throttle = (func: Function, delay: number, immediate: boolean = false) => {
+    let lastExecuted: number | null = null;
+    let timeout: ReturnType<typeof setTimeout> | null = null;
 
-    // Previously called time of the function
-    let prev: number = 0;
-    return (...args: any[]) => {
-        let now: number = new Date().getTime();
+    return function (this: unknown, ...args: any[]) {
+        const context = this;
+        const now = performance.now();
 
-        // If difference is greater (now - prev, delay)
-        // than delay call the function again.
-        if (now - prev > delay) {
-            prev = now;
-
-            // "..." is the spread
-            // operator here 
-            // returning the function with the 
-            // array of arguments
-            return func(...args);
+        if (lastExecuted === null && immediate) {
+            lastExecuted = now;
+            func.apply(context, args);
+            return;
         }
-    }
-}
+
+        const remainingTime = delay - (now - (lastExecuted || 0));
+
+        if (remainingTime <= 0 || lastExecuted === null) {
+            clearTimeout(timeout!);
+            timeout = null;
+            lastExecuted = now;
+            func.apply(context, args);
+        } else if (!timeout) {
+            timeout = setTimeout(() => {
+                lastExecuted = performance.now();
+                timeout = null;
+                func.apply(context, args);
+            }, remainingTime);
+        }
+    };
+};
