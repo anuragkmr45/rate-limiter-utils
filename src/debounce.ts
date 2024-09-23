@@ -4,11 +4,11 @@ export function debounce(func: Function, delay: number, immediate: boolean = fal
     return function (this: unknown, ...args: any[]) {
         const context = this;
 
+        const callNow = immediate && debounceTimer === null;
+
         if (debounceTimer) {
             clearTimeout(debounceTimer);
         }
-
-        const callNow = immediate && !debounceTimer;
 
         debounceTimer = setTimeout(() => {
             debounceTimer = null;

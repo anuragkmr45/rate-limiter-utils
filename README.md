@@ -123,7 +123,7 @@ Find the repository on GitHub:
 
 ## 📝 License
 
-This project is licensed under the ISC License.
+This project is licensed under the MIT License.
 
 ## 👤 Author
 
