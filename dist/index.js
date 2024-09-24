@@ -3,10 +3,10 @@ function debounce(func, delay, immediate = false) {
   let debounceTimer;
   return function(...args) {
     const context = this;
+    const callNow = immediate && debounceTimer === null;
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
-    const callNow = immediate && !debounceTimer;
     debounceTimer = setTimeout(() => {
       debounceTimer = null;
       if (!immediate) {
